@@ -1,0 +1,10 @@
+Um relatório final do projeto deve ser apresentado. 
+O trabalho deve conter:
+ Explicação teorica do funcionamento dos algoritmos de detecçao e correçao de erros utilizados;
+ Comparaçao entre os resultados obtidos utilizando os algoritmos: CRC-8, Hamming, MD5 e SHA1 sob os cenarios: 
+flipar bits pares, 
+flipar bits impares, 
+flipar de forma aleatoria de 1 a x% os bits do payload da mensagem, 
+nao flipar nenhum bit;
+  -taxa de erro detectados;
+ Apresentar conclusao mostrando quais vantagens e desvantagens de cada algoritmo e qual seria o melhor algoritmo em um determinado contexto;
