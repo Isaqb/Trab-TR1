@@ -1,27 +1,16 @@
 # Trab-TR1
 1 Descrição do Projeto
-Este trabalho tem como objetivo simular a comunicac~ao entre dois ou mais clientes, utilizando um canal
-de comunicac~ao n~ao conavel como meio compartilhado. Para a implementac~ao desta abstrac~ao,
-devera ser utilizado a arquitetura Cliente  Servidor. O canal n~ao conavel sera implementado
-como servidor e a conex~ao entre os clientes devera, obrigatoriamente, passar pelo Canal de Comunica
-c~ao. Ou seja, apos o estabelecimento da comunicac~ao entre os clientes e o servidor (canal de
-comunicac~ao), toda a mensagem encaminhada por um cliente origem devera ser recebida, tratada e
-encaminhadas aos clientes de destino pelo servidor.
-E
-importante destacar que o canal de comunicac~ao tambem desempenha o papel de encaminhador
-de mensagens entre os clientes de origem e os de destinos. Para isso, devera ser implementado, na
-camada aplicac~ao, um cabecalho para a identicac~ao dos enderecos de origem e destino. Com base
-nestes identicadores e que o canal de comunicac~ao tera condic~oes de fazer o encaminhamento entre
-os sockets de comunicac~ao abertos.
-A gura abaixo apresenta uma representac~ao da arquitetura descrita.
-Todas as congurac~oes do Canal e dos clientes dever~ao ser fornecidas mediante arquivo de con-
-gurac~ao. Desta forma, espera-se ser possvel obter uma maior 
-exibilizac~ao nos par^ametros fornecidos
-ao sistema durante a execuc~ao de diversos experimentos.
-1.1 Aplicac~ao
-A aplicac~ao a ser implementada devera gerar, de forma sequencial, numeros inteiros positivos. Este
-numeros ser~ao apresentados tanto no cliente origem quanto no cliente destino. O payload das mensagens
-geradas pela Camada de Aplicac~ao e formado pelos numeros gerados de forma sequencial.
+Este trabalho tem como objetivo simular a comunicação entre dois ou mais clientes, utilizando um canal
+de comunicação não confiavel como meio compartilhado. Para a implementaçãao desta abstraçao,
+devera ser utilizado a arquitetura Cliente  Servidor. O canal nao confiavel sera implementado
+como servidor e a conexao entre os clientes devera, obrigatoriamente, passar pelo Canal de Comunicaçao. Ou seja, apos o estabelecimento da comunicaçao entre os clientes e o servidor (canal de comunicaçao), toda a mensagem encaminhada por um cliente origem devera ser recebida, tratada e encaminhadas aos clientes de destino pelo servidor.É importante destacar que o canal de comunicaçao tambem desempenha o papel de encaminhador de mensagens entre os clientes de origem e os de destinos. Para isso, devera ser implementado, na camada aplicaçao, um cabeçalho para a identificaçao dos endereços de origem e destino. Com base nestes identificadores é que o canal de comunicaçao tera condiçoes de fazer o encaminhamento entre
+os sockets de comunicaçao abertos.
+A figura abaixo apresenta uma representac~ao da arquitetura descrita.
+Todas as configuraçoes do Canal e dos clientes deverao ser fornecidas mediante arquivo de configuraçao. Desta forma, espera-se ser possivel obter uma maior exibilizaçao nos parametros fornecidos ao sistema durante a execuçao de diversos experimentos.
+1.1 Aplicaçao
+A aplicaçao a ser implementada devera gerar, de forma sequencial, numeros inteiros positivos. Este
+numeros serao apresentados tanto no cliente origem quanto no cliente destino. O payload das mensagens
+geradas pela Camada de Aplicaçao e formado pelos numeros gerados de forma sequencial.
 1.2 Cliente
 Os clientes dever~ao conectar-se ao servidor (canal) mediante ao estabelecimento de conex~ao socket
 utilizando os protocolos TCP e IP. O socket estabelecido e que sera utilizado para encaminhar as
@@ -59,7 +48,7 @@ Contudo, antes de fazer o encaminhamento, o servidor devera simular os erros de
 erros possveis est~ao denidos no arquivo de congurac~ao de entrada. S~ao eles: 
 ipar bits pares,
 
-ipar bits mpares, 
+ipar bits impares, 
 ipar de forma aleatoria de 1 a todos os bits do payload da mensagem, n~ao 
 ipar
 nenhum bit; Somente os bits do payload da mensagem e que poder~ao ser 
