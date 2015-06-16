@@ -1,0 +1,5 @@
+num = int(raw_input()) "recebe do teclado um inteiro"
+print bin(num)[2:]    "transforma inteiro para binario"
+n=bin(num)[2:]        "um binario"
+x = int(n,2)          "transforma binario para inteiro"
+print x
