@@ -5,10 +5,9 @@ import sys
 
 class Envia(Thread):
 
-	def __init__ (self, num):
+	def __init__ (self, num, host_address, name):
 		print ("Thread que envia: criada")
 		Thread.__init__(self)
-
 	def run(self):
 		ip = '127.0.0.1'#Le do usuario o IP do servidor com que fara a conexao	
 		port = 7000 #Utilizando a porta 7000
@@ -17,10 +16,10 @@ class Envia(Thread):
 		client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)#Especifica os tipos. Familia do protocolo e que sera do tipo TCP.
 
 		client_socket.connect(addr) #Conecta com o IP e PORTA que especificamos anteriormente
-		while(mensagem != "QSAIR"): #Enquanto a mensagem escrita for diferente de QSAIR ele continuara fazendo o envio
-			mensagem = raw_input("Digite uma mensagem para enviar ao servidor 1: ") #Le a mensagem a ser enviada
-			client_socket.send(mensagem) #Envia a mensagem pro servidor
-			print("Mensagem enviada")
+
+		mensagem = '127.0.0.2' #Le a mensagem a ser enviada
+		client_socket.send(mensagem) #Envia a mensagem pro servidor
+		print("Mensagem enviada")
 
 		client_socket.close() #Encerra a conexao
 
@@ -32,7 +31,7 @@ class Recebe(Thread):
 		Thread.__init__(self)
 	
 	def run(self):
-		host = '180.100.200.300' #IP DA MaQUINA ATUAL
+		host = '127.0.0.3' #IP DA MaQUINA ATUAL
 		port = 7000 #PORTA QUE SERa UTILIZADA PARA CONEXaO
 		recebe = "" #Variavel que recebera a mensagem
 		addr = (host, port) #VARIAVEL CONTENDO OS VALORES DO IP E PORTA
@@ -48,6 +47,7 @@ class Recebe(Thread):
 		while(recebe != "QSAIR"): #Enquanto a mensagem recebida for diferente de QSAIR o programa continuara recebendo mensagens.
 		    recebe = con.recv(1024) #Aguarda um dado enviado pela rede de ate 1024 Bytes
 		    print('Mensagem recebida: '+recebe+" - IP: "+str(cliente[0]))
+		    print('Mensagem recebida: '+recebe+" - IP: "+str(cliente[1]))
 
-		serv_socket.close() #Encerra a conexao
+		serv_socket.close() #Encerra a conexao"""
 

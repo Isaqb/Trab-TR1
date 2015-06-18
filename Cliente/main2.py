@@ -1,5 +1,6 @@
-from Cliente import Recebe
-from Cliente import Envia
+from Cliente2 import Recebe
+from Cliente2 import Envia
+import socket
 import sys
 
 envia = Envia(1)

@@ -3,26 +3,25 @@ import socket
 import sys
 
 
-class Envia(Thread):
 
+
+
+class Envia(Thread):
+	value = ''
 	def __init__ (self, num):
 		print ("Thread que envia: criada")
 		Thread.__init__(self)
-
+		self.num = num 
 	def run(self):
-		ip = raw_input('Digite o ip de conexao 1:')#Le do usuario o IP do servidor com que fara a conexao	
-		port = 7000 #Utilizando a porta 7000
-		mensagem = "" #Variavel que vai ler a mensagem a ser enviada
-		addr = ((ip,port)) #Tupla contendo os valores do IP e PORTA
-		client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)#Especifica os tipos. Familia do protocolo e que sera do tipo TCP.
-
-		client_socket.connect(addr) #Conecta com o IP e PORTA que especificamos anteriormente
-		while(mensagem != "QSAIR"): #Enquanto a mensagem escrita for diferente de QSAIR ele continuara fazendo o envio
-			mensagem = raw_input("Digite uma mensagem para enviar ao servidor 1: ") #Le a mensagem a ser enviada
-			client_socket.send(mensagem) #Envia a mensagem pro servidor
-			print("Mensagem enviada")
-
-		client_socket.close() #Encerra a conexao
+		try:       
+			client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			host = socket.gethostname()
+			client.connect((host, 7000))
+			client.send(self.num)
+			client.shutdown(socket.SHUT_RDWR)
+			client.close()
+		except Exception as msg:
+			print msg
 
 
 class Recebe(Thread):
@@ -48,6 +47,7 @@ class Recebe(Thread):
 		while(recebe != "QSAIR"): #Enquanto a mensagem recebida for diferente de QSAIR o programa continuara recebendo mensagens.
 		    recebe = con.recv(1024) #Aguarda um dado enviado pela rede de ate 1024 Bytes
 		    print('Mensagem recebida: '+recebe+" - IP: "+str(cliente[0]))
+		    print('Mensagem recebida: '+recebe+" - IP: "+str(cliente[1]))
 
-		serv_socket.close() #Encerra a conexao
+		serv_socket.close() #Encerra a conexao"""
 
