@@ -1,0 +1,40 @@
+#Enviar numero com CRC8
+import math
+
+num = 8 #Numero que deve ser passado
+entrada = [0]*32
+shift = [0]*9
+saida = entrada + shift
+
+for x in range(-1,33):
+	if num-pow(2,32-x)>=0:
+		entrada[x]=1
+		num=num-pow(2,32-x)
+		
+dividendo = entrada + shift
+
+#Dividir polinomio por divisor CRC8 para descobrir resto
+divisor = [1,1,1,0,1,0,1,0,1]
+
+y = 0
+x = 1
+resto=dividendo
+
+#Nao esta funcionando ainda, resolver alguns problemas, mas logica confere xD
+while True:
+	for i in range(-1,len(divisor)):
+		if(y+i)<len(resto):
+			if resto[y+i]!= divisor[i]:
+				resto[y+i]=1
+			else:
+				resto[y+i]=0
+	y=y+1
+	sum=0
+	for j in range(-1,len(resto)):
+		sum=sum+resto[j]
+	if sum==0:
+		break
+		
+for i in range(-1,len(divisor)):
+	if resto[i]+entrada[i]>0
+		saida[i]=1
