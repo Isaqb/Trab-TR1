@@ -1,4 +1,4 @@
-def paridade (mensagem) :
+def paridade (mensagem) : #recebe uma mensagem converte para uma lista e nas posições de bits de paridade insere *
 	mensagem = list(mensagem)
 	for i in range(0, len(mensagem)):
 		posicao = 2** i
