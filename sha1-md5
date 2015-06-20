@@ -1,3 +1,17 @@
 import hashlib
 m = hashlib.md5()
+mensagem_original = hashlib.md5()
+m.update(mensagem)
+mensagem_original.update(moriginal)
+if m == mensagem_original
+  print "Sem erros"
+else 
+  print "Erro durante envio" 
 n = hashlib.sha1()
+mensagem_original = hashlib.sha1()
+m.update(mensagem)
+mensagem_original.update(moriginal)
+if m == mensagem_original
+  print "Sem erros"
+else 
+  print "Erro durante envio" 
