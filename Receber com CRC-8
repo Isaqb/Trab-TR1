@@ -1,0 +1,39 @@
+#Verificando numero entrada com CRC-8 em Python
+import math
+
+#Entrada sera um vetor com cabecalho + um numero de 32 bits + resto da divisao para verificaÃ§Ã£o
+entrada = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0]
+
+#Divisor de Polinomios
+divisor = [1,1,1,0,1,0,1,0,1]
+
+resto = entrada
+
+#Descobrir onde comeca o polinomio
+for i in range(0,len(resto)):
+	if resto[i]==1:
+		y=i
+		break
+#Loop principal
+while True:
+        if(resto[y]==1):
+                for i in range(0,len(divisor)):
+                        if resto[y+i]!=divisor[i]:
+                                resto[y+i]=1
+                        else:
+                                resto[y+i]=0
+                y=y+1
+        else:
+                y=y+1
+        if(y+i>=len(resto)):
+                break
+
+#Avaliacao de Erro
+soma =0
+for i in range(0,len(resto)):
+	soma = soma+resto[i]
+	
+if(soma>0):
+	print "ERRADO"
+else:
+	print "CORRETO"
