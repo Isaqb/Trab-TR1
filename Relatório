@@ -106,3 +106,8 @@ A família de SHA (Secure Hash Algorithm) está relacionada com as funções cri
 O primeiro membro da família, publicado em 1993, foi oficialmente chamado SHA; no entanto, é frequentemente chamado SHA-0 para evitar confusões com os seus sucessores. Dois anos mais tarde, SHA-1, o primeiro sucessor do SHA, foi publicado. Desde então quatro variantes foram lançadas com capacidades de saída aumentadas e um design ligeiramente diferente: SHA-224, SHA-256, SHA-384, e SHA-512 — por vezes chamadas de SHA-2.
 Foram feitos ataques a ambos SHA-0 e SHA-12 . Ainda não foram reportados ataques às variantes SHA-2, mas como elas são semelhantes ao SHA-1, pesquisadores estão preocupados, e estão a desenvolver candidatos para um novo e melhor padrão de hashing.
 
+Observações:
+O cliente destino receberá do socket estabelecido com o servidor a mensagem encaminhada pelo cliente origem. O cabeçalho da mensagem fornecerá a informação de qual algoritmo de correção foi aplicado. O cliente destino deverá verificar se a mensagem foi recebida de maneira correta. Caso contrário, deverá tentar recuperar a informação original.
+=>Os algoritmos de detecção de erros MD5 e SHA1 não permitem que a mensagem original seja recuperada pela natureza da função hash utilizada na implementação das mesmas.
+Comparaçãao entre os resultados obtidos utilizando os algoritmos: CRC-8, Hamming, MD5 e SHA1 sob os cenários: flipar bits pares, flipar bits ímpares, flipar de forma aleatória de 1 a x% os bits do payload da mensagem, não flipar nenhum bit;
+=>O algoritmo de detecção de erro,Hamming,não corrige mais de 1 bit em seua execução.
