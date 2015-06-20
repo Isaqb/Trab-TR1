@@ -3,6 +3,7 @@ from Servidor import Envia
 import socket
 import select
 import Queue
+import config as cfg
 from threading import Thread
 from time import sleep
 from random import randint
@@ -15,9 +16,8 @@ envia.start()
 def Recebe():
 	print "Thread que recebe: criada"
 	s = socket.socket()         # Cria um objeto de socket
-	host = socket.gethostname() # Nome local da maquina
-	port = 7000             	# Rezerva a porta para o programa
-	s.bind((host, port))        
+	port = cfg.PORT            	# Rezerva a porta para o programa
+	s.bind((cfg.SERVIDOR, port))        
 	s.listen(10)                #Define o numero maximo de clientes para 10
 
 
@@ -40,8 +40,8 @@ def Recebe():
 
 
 def Limpar():
-	t.stop()
-	t.join()
+	envia.stop()
+	envia.join()
 
 if __name__ == "__main__":
 	Recebe()
