@@ -1,51 +1,71 @@
-import threading
 import socket
-import sys
+import select
+import Queue
 import config as cfg
+from threading import Thread
+from time import sleep
+from random import randint
+import sys
 
-payload = 0
+def FlipaBits(value, flip):
+	tamanho = len(value)
+	if flip == 1:
+		masc = '{0:032b}'.format(1431655765) #0x55555555
+	elif flip == 2:
+		masc = '{0:032b}'.format(2863311530) #0xAAAAAAAA
+	else:
+		masc = '{0:032b}'.format(randint(0, 4294967295)) #random de 0x00000000 e 0xFFFFFFFF
 
-class Recebe(threading.Thread):
-	def __init__ (self, ip,port):
-		print ("Cliente ip:"+ip+ " Cliente Port"+str(port))
-		threading.Thread.__init__(self)
-		self.ip = ip
-		self.port = port
-	def run(self):
-		addr = (self.ip, self.port) #VARIAVEL CONTENDO OS VALORES DO IP E PORTA
-		serv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Especificamos os tipos: AF_INET que declara a familia do protocolo; SOCKET_STREAM, indica que sera TCP/IP. 
-		serv_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #Essa linha serve para zerar o TIME_WAIT do Socket
-		serv_socket.bind(addr) #Define para qual IP e porta o servidor deve aguardar a conexao, que no nosso caso e qualquer IP, por isso o Host e ' '. 
-		serv_socket.listen(1) #Define o limite de conexoes.
-		while 1: #Enquanto a mensagem recebida for diferente de QSAIR o programa continuara recebendo mensagens.
-			con, servidor = serv_socket.accept() #Tupla contendo dois valores, numero da conexao e endereco IP do servidor.
-			recebe = con.recv(1024) #Aguarda um dado enviado pela rede de ate 1024 Bytes
-			print(self.ip+':Mensagem recebida: '+ recebe+" - IP: "+str(servidor[0]))
+	if flip != 0:
+		#valueInt = int(value)
+		#valueBin = '{0:032b}'.format(valueInt)
+		valueBin = int(value,2) ^ int(masc,2)
+		#value = '{0:064b}'.format(valueBin)
+		value = '%0*d' % (tamanho, int(bin(valueBin)[2:]))
+		#print valueBinFlip
+		#value = valueBinFlip
+	return value
 
-		serv_socket.close() #Encerra a conexao 
-
-
-
-class Cliente(threading.Thread):
-	def __init__ (self, ip,num):
-		print ("Cliente ip:"+ip)
-		threading.Thread.__init__(self)
-		self.src = ip
-		self.num = num
-		self.lock = threading.Lock()
-	def run(self):
+def Processa(value):
+	try:
+		msg = value.split()
+		client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		client.connect((msg[1], int(msg[2])))
+		if msg[3] == "MD5" or msg[3]=="SHA1":
+			msg[6] = FlipaBits(msg[6],int(msg[4]))
 		
-		thread = Recebe(self.src,cfg.ports[self.num])
-		thread.start()
+		#print msg[4]
+		client.send(' '.join(str(x) for x in msg))
+		client.shutdown(socket.SHUT_RDWR)
+		client.close()
+	except Exception as msg:
+		print msg
 
-		try:
-			i = 0
-			for ip in cfg.clientes:	       
-				server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)#Especifica os tipos. Familia do protocolo e que sera do tipo TCP.
-				server.connect((cfg.SERVIDOR, cfg.PORT))#conecta com o servidor utilizando o ip e a porta
-				server.send(self.src+" "+ip+" "+str(cfg.ports[i]) +" "+str(self.num)+" "+str(i))#envia mensagem
-				server.shutdown(socket.SHUT_RDWR)#encerra o socket
-				server.close()#fecha coneccao
-				i+=1
-		except Exception as msg:
-			print msg#em caso de erro, imprime msg de erro
+
+class Envia(Thread):
+	def __init__(self):
+		super(Envia, self).__init__()
+		self.running = True #condicao para o programa rodar
+		self.q = Queue.Queue()#criacao da fila de msgs
+ 
+	def add(self, data):
+		self.q.put(data)#adiciona msgs na fila
+ 
+	def stop(self):
+		self.running = False#faz o servidor para de rodar
+ 
+	def run(self):
+		q = self.q#cria uma copia da fila
+		while self.running:
+			try:
+				# espera por 1 segundo:
+				value = q.get(block=True, timeout=1)
+				Processa(value)
+			except Queue.Empty:
+				sys.stdout.write('.')
+				sys.stdout.flush()
+
+		if not q.empty():
+			print "Existem elementos na fila que nao podem ser lidos"
+		while not q.empty():
+			print q.get()
