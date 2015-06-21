@@ -1,0 +1,67 @@
+import math
+
+def Conv(n):
+    convertido=[0]*6
+    for x in range(0,6):
+                if n-pow(2,5-x)>=0:
+                        convertido[x]=1
+                        n=n-pow(2,5-x)
+    return convertido
+
+def Som(con):
+    l=0
+    for x in range(0,len(con)):
+        l=l+con[x]
+    return l
+
+#Entrada recebe 38 bits(entrada+6x paridade)
+ham = [0]*6
+hamP = [0]*6
+entrada = [0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1]
+
+y=0
+#Pegar posicao dos bits da paridade
+for i in range(1,39):
+    if(Som(Conv(i))==1):
+        hamP[y]=i-1
+        y=y+1
+    
+z=0
+y=0
+num3=0
+#Calculo da paridade
+for i in range(0,38):
+    if(i==hamP[z]):
+        soma=0
+        for j in range(i+1,39):
+            num2=Conv(j)
+            if num2[5-z]==1:
+                soma=soma+entrada[j-1]
+        if(soma%2!=0):
+            ham[y]=1
+            y=y+1
+        else:
+            ham[y]=0
+            y=y+1
+        if(z+1<len(ham)):
+            z=z+1
+    else:
+        num3=num3+entrada[i]*pow(2,37-i)
+        
+
+#Calculo do numero recebido
+num=0
+for i in range(0,6):
+    num=num+ham[i]*pow(2,i)
+
+#Exibicao do erro ou resultado correto
+if(num>0):
+    print "Erro na posicao "
+    print num-1
+    print "da entrada"
+    print "Numero Mandado:"
+    print num3
+else:
+    print "CORRETO"
+    print "Numero Mandado:"
+    print num3
