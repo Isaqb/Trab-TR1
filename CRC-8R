@@ -1,7 +1,7 @@
 #Verificando numero entrada com CRC-8 em Python
 import math
 
-#Entrada sera um vetor com cabecalho + um numero de 32 bits + resto da divisao para verificaÃ§Ã£o
+#Entrada sera um vetor com cabecalho + um numero de 32 bits + resto da divisao para verificao
 entrada = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0]
 
 #Divisor de Polinomios
@@ -9,12 +9,18 @@ divisor = [1,1,1,0,1,0,1,0,1]
 
 resto = entrada
 
+#Descobrir qual suposto dado enviado
+num3=0
+for i in range(0,32):
+        num3=num3+entrada[i]*pow(2,31-i)
+
 #Descobrir onde comeca o polinomio
 for i in range(0,len(resto)):
 	if resto[i]==1:
 		y=i
 		break
 #Loop principal
+
 while True:
         if(resto[y]==1):
                 for i in range(0,len(divisor)):
@@ -37,3 +43,6 @@ if(soma>0):
 	print "ERRADO"
 else:
 	print "CORRETO"
+	
+print "Numero Mandado:"
+print num3
